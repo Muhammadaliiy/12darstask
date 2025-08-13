@@ -1,0 +1,11 @@
+<svg width="300" height="240" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 240">
+  <rect width="300" height="240" fill="#F4EDEB"/>
+  <rect x="75" y="120" width="150" height="60" fill="#8B0000" rx="5"/>
+  <rect x="75" y="100" width="150" height="20" fill="#F0F8FF"/>
+  <rect x="75" y="80" width="150" height="20" fill="#8B0000"/>
+  <rect x="75" y="60" width="150" height="20" fill="#F0F8FF"/>
+  <circle cx="120" cy="70" r="3" fill="#DC143C"/>
+  <circle cx="150" cy="65" r="3" fill="#DC143C"/>
+  <circle cx="180" cy="72" r="3" fill="#DC143C"/>
+  <text x="150" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#260F08">Red Velvet Cake</text>
+</svg>

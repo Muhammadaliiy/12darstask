@@ -1,0 +1,11 @@
+<svg width="300" height="240" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 240">
+  <rect width="300" height="240" fill="#F4EDEB"/>
+  <rect x="60" y="80" width="180" height="80" fill="#3E2723" rx="8"/>
+  <rect x="70" y="90" width="160" height="60" fill="#5D4037"/>
+  <circle cx="100" cy="110" r="8" fill="#FF8C00"/>
+  <circle cx="140" cy="120" r="6" fill="#FF8C00"/>
+  <circle cx="180" cy="115" r="7" fill="#FF8C00"/>
+  <circle cx="120" cy="140" r="5" fill="#FF8C00"/>
+  <circle cx="160" cy="135" r="6" fill="#FF8C00"/>
+  <text x="150" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#260F08">Salted Caramel Brownie</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg width="300" height="240" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 240">
+  <rect width="300" height="240" fill="#F4EDEB"/>
+  <circle cx="80" cy="100" r="30" fill="#FFB6C1"/>
+  <circle cx="150" cy="100" r="30" fill="#98FB98"/>
+  <circle cx="220" cy="100" r="30" fill="#87CEEB"/>
+  <circle cx="115" cy="140" r="30" fill="#DDA0DD"/>
+  <circle cx="185" cy="140" r="30" fill="#F0E68C"/>
+  <text x="150" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#260F08">Macaron Mix of Five</text>
+</svg>

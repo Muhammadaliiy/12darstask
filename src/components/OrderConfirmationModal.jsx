@@ -3,9 +3,32 @@ import React from 'react';
 const OrderConfirmationModal = ({ isOpen, cartItems, totalPrice, onStartNewOrder, onClose }) => {
   if (!isOpen) return null;
 
-  // Fix image paths from API (remove "../" prefix)
+  // Enhanced image path handling to work with API paths and user uploads
   const getImageSrc = (imagePath) => {
-    return imagePath ? imagePath.replace('../', '/') : '/images/placeholder.jpg';
+    if (!imagePath) return '/images/placeholder.jpg';
+    
+    // If path starts with '../images/', convert to '/images/'
+    if (imagePath.startsWith('../images/')) {
+      return imagePath.replace('../images/', '/images/');
+    }
+    
+    // If path starts with './images/', convert to '/images/'
+    if (imagePath.startsWith('./images/')) {
+      return imagePath.replace('./images/', '/images/');
+    }
+    
+    // If path already starts with '/images/', use as is
+    if (imagePath.startsWith('/images/')) {
+      return imagePath;
+    }
+    
+    // If it's just a filename, prepend '/images/'
+    if (!imagePath.includes('/')) {
+      return `/images/${imagePath}`;
+    }
+    
+    // Otherwise use as provided
+    return imagePath;
   };
 
   return (
@@ -21,7 +44,20 @@ const OrderConfirmationModal = ({ isOpen, cartItems, totalPrice, onStartNewOrder
           {cartItems.map(item => (
             <div key={item.id} className="order-item">
               <div className="order-item-image">
-                <img src={getImageSrc(item.image.thumbnail)} alt={item.name} />
+                <img 
+                  src={getImageSrc(item.image.thumbnail)} 
+                  alt={item.name}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div 
+                  className="order-item-placeholder"
+                  style={{ display: 'none', width: '48px', height: '48px', backgroundColor: '#f4edeb', borderRadius: '4px', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#87635a' }}
+                >
+                  IMG
+                </div>
               </div>
               <div className="order-item-info">
                 <h4 className="order-item-name">{item.name}</h4>

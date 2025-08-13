@@ -15,9 +15,32 @@ const ProductCard = ({ product, onAddToCart, quantity, onUpdateQuantity }) => {
     onUpdateQuantity(product.id, quantity - 1);
   };
 
-  // Fix image paths from API (remove "../" prefix)
+  // Enhanced image path handling to work with API paths and user uploads
   const getImageSrc = (imagePath) => {
-    return imagePath ? imagePath.replace('../', '/') : '/images/placeholder.jpg';
+    if (!imagePath) return '/images/placeholder.jpg';
+    
+    // If path starts with '../images/', convert to '/images/'
+    if (imagePath.startsWith('../images/')) {
+      return imagePath.replace('../images/', '/images/');
+    }
+    
+    // If path starts with './images/', convert to '/images/'
+    if (imagePath.startsWith('./images/')) {
+      return imagePath.replace('./images/', '/images/');
+    }
+    
+    // If path already starts with '/images/', use as is
+    if (imagePath.startsWith('/images/')) {
+      return imagePath;
+    }
+    
+    // If it's just a filename, prepend '/images/'
+    if (!imagePath.includes('/')) {
+      return `/images/${imagePath}`;
+    }
+    
+    // Otherwise use as provided
+    return imagePath;
   };
 
   const handleImageError = () => {

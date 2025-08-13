@@ -40,6 +40,15 @@ A modern, responsive dessert shop single-page application built with React. User
 
 4. Open your browser and navigate to `http://localhost:5173`
 
+## 📸 Image Setup
+
+The application comes with placeholder SVG images for all desserts. To use your own images:
+
+1. Place your dessert images in the `public/images/` folder
+2. Follow the naming convention in `replace-images.md`
+3. The app supports responsive images (desktop, tablet, mobile, thumbnail)
+4. See `replace-images.md` for detailed instructions
+
 ## 🏗️ Project Structure
 
 ```

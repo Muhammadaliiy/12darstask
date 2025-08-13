@@ -1,0 +1,10 @@
+<svg width="300" height="240" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 240">
+  <rect width="300" height="240" fill="#F4EDEB"/>
+  <polygon points="150,60 220,120 150,180 80,120" fill="#DEB887"/>
+  <polygon points="150,70 210,120 150,170 90,120" fill="#F4A460"/>
+  <circle cx="120" cy="100" r="3" fill="#228B22"/>
+  <circle cx="150" cy="110" r="3" fill="#228B22"/>
+  <circle cx="180" cy="105" r="3" fill="#228B22"/>
+  <circle cx="140" cy="140" r="3" fill="#228B22"/>
+  <text x="150" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#260F08">Pistachio Baklava</text>
+</svg>
