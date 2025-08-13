@@ -1,35 +1,115 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { apiService } from './services/api';
+import { useCart } from './hooks/useCart';
+import ProductList from './components/ProductList';
+import Cart from './components/Cart';
+import OrderConfirmationModal from './components/OrderConfirmationModal';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const {
+    cartItems,
+    addToCart,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    getTotalItems,
+    getTotalPrice,
+    getItemQuantity
+  } = useCart();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const desserts = await apiService.getDesserts();
+        setProducts(desserts);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load products. Please try again later.');
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleConfirmOrder = () => {
+    setShowModal(true);
+  };
+
+  const handleStartNewOrder = () => {
+    clearCart();
+    setShowModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  if (loading) {
+    return (
+      <div className="app">
+        <div className="loading">
+          <p>Loading delicious desserts...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app">
+        <div className="error">
+          <p>{error}</p>
+          <button onClick={() => window.location.reload()}>
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <div className="container">
+        <main className="main-content">
+          <ProductList
+            products={products}
+            onAddToCart={addToCart}
+            getItemQuantity={getItemQuantity}
+            onUpdateQuantity={updateQuantity}
+          />
+        </main>
+        
+        <aside className="sidebar">
+          <Cart
+            cartItems={cartItems}
+            totalItems={getTotalItems()}
+            totalPrice={getTotalPrice()}
+            onUpdateQuantity={updateQuantity}
+            onRemoveItem={removeFromCart}
+            onConfirmOrder={handleConfirmOrder}
+          />
+        </aside>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      <OrderConfirmationModal
+        isOpen={showModal}
+        cartItems={cartItems}
+        totalPrice={getTotalPrice()}
+        onStartNewOrder={handleStartNewOrder}
+        onClose={handleCloseModal}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
