@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ProductCard = ({ product, onAddToCart, quantity, onUpdateQuantity }) => {
   const [imageError, setImageError] = useState(false);

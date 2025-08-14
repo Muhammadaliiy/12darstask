@@ -1,57 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { apiService } from './services/api';
-import { useCart } from './hooks/useCart';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts, selectProducts, selectProductsLoading, selectProductsError } from './features/productsSlice';
+import { 
+  selectCartItems, 
+  selectTotalItems, 
+  selectTotalPrice,
+  selectItemQuantity,
+  addToCart,
+  updateQuantity,
+  removeFromCart,
+  clearCart
+} from './features/cartSlice';
+import {
+  selectIsOrderConfirmationOpen,
+  openOrderConfirmation,
+  closeOrderConfirmation
+} from './features/modalSlice';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import OrderConfirmationModal from './components/OrderConfirmationModal';
 import './App.css';
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
+  
+  // Selectors
+  const products = useSelector(selectProducts);
+  const loading = useSelector(selectProductsLoading);
+  const error = useSelector(selectProductsError);
+  const cartItems = useSelector(selectCartItems);
+  const totalItems = useSelector(selectTotalItems);
+  const totalPrice = useSelector(selectTotalPrice);
+  const showModal = useSelector(selectIsOrderConfirmationOpen);
 
-  const {
-    cartItems,
-    addToCart,
-    updateQuantity,
-    removeFromCart,
-    clearCart,
-    getTotalItems,
-    getTotalPrice,
-    getItemQuantity
-  } = useCart();
-
+  // Load products on component mount
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const desserts = await apiService.getDesserts();
-        setProducts(desserts);
-        setError(null);
-      } catch (err) {
-        setError('Failed to load products. Please try again later.');
-        console.error('Error fetching products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-    fetchProducts();
-  }, []);
+  // Event handlers
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  const handleUpdateQuantity = (productId, newQuantity) => {
+    dispatch(updateQuantity({ productId, newQuantity }));
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    dispatch(removeFromCart(productId));
+  };
 
   const handleConfirmOrder = () => {
-    setShowModal(true);
+    dispatch(openOrderConfirmation());
   };
 
   const handleStartNewOrder = () => {
-    clearCart();
-    setShowModal(false);
+    dispatch(clearCart());
+    dispatch(closeOrderConfirmation());
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    dispatch(closeOrderConfirmation());
+  };
+
+  const getItemQuantity = (productId) => {
+    const item = cartItems.find(item => item.id === productId);
+    return item ? item.quantity : 0;
   };
 
   if (loading) {
@@ -69,7 +84,7 @@ function App() {
       <div className="app">
         <div className="error">
           <p>{error}</p>
-          <button onClick={() => window.location.reload()}>
+          <button onClick={() => dispatch(fetchProducts())}>
             Try Again
           </button>
         </div>
@@ -83,19 +98,19 @@ function App() {
         <main className="main-content">
           <ProductList
             products={products}
-            onAddToCart={addToCart}
+            onAddToCart={handleAddToCart}
             getItemQuantity={getItemQuantity}
-            onUpdateQuantity={updateQuantity}
+            onUpdateQuantity={handleUpdateQuantity}
           />
         </main>
         
         <aside className="sidebar">
           <Cart
             cartItems={cartItems}
-            totalItems={getTotalItems()}
-            totalPrice={getTotalPrice()}
-            onUpdateQuantity={updateQuantity}
-            onRemoveItem={removeFromCart}
+            totalItems={totalItems}
+            totalPrice={totalPrice}
+            onUpdateQuantity={handleUpdateQuantity}
+            onRemoveItem={handleRemoveFromCart}
             onConfirmOrder={handleConfirmOrder}
           />
         </aside>
@@ -104,7 +119,7 @@ function App() {
       <OrderConfirmationModal
         isOpen={showModal}
         cartItems={cartItems}
-        totalPrice={getTotalPrice()}
+        totalPrice={totalPrice}
         onStartNewOrder={handleStartNewOrder}
         onClose={handleCloseModal}
       />

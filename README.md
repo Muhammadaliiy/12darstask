@@ -16,8 +16,8 @@ A modern, responsive dessert shop single-page application built with React. User
 - **Frontend**: React 19
 - **Build Tool**: Vite
 - **Styling**: Pure CSS (no frameworks)
-- **State Management**: React Hooks (useState, useEffect, custom hooks)
-- **API**: RESTful API integration
+- **State Management**: Redux Toolkit with React Redux
+- **API**: RESTful API integration with Redux async thunks
 - **Storage**: localStorage for cart persistence
 
 ## 📦 Installation
@@ -58,8 +58,12 @@ src/
 │   ├── ProductList.jsx   # Products grid container
 │   ├── Cart.jsx          # Shopping cart component
 │   └── OrderConfirmationModal.jsx  # Order confirmation modal
-├── hooks/                # Custom React hooks
-│   └── useCart.js        # Cart state management
+├── features/             # Redux Toolkit slices
+│   ├── cartSlice.js      # Cart state management
+│   ├── productsSlice.js  # Products state management
+│   └── modalSlice.js     # Modal state management
+├── store/                # Redux store configuration
+│   └── index.js          # Store setup
 ├── services/             # API services
 │   └── api.js            # API calls
 ├── utils/                # Utility functions
@@ -98,6 +102,13 @@ https://json-api.uz/api/project/dessertss/desserts
 ```
 
 ## 💡 Key Features Implementation
+
+### Redux State Management
+- **Redux Toolkit**: Modern Redux with simplified syntax
+- **Slices**: Organized state management (cart, products, modal)
+- **Async Thunks**: API calls with loading/error states
+- **Selectors**: Optimized state access
+- **Immutable Updates**: Safe state mutations with Immer
 
 ### Cart Management
 - **Add to Cart**: Adds items or increases quantity
@@ -168,9 +179,9 @@ https://json-api.uz/api/project/dessertss/desserts
 ✅ **UI/UX**: Matches Figma design specifications  
 ✅ **Technology**: React with pure CSS  
 ✅ **Responsive**: Works on all device sizes  
-✅ **State Management**: Custom hooks and React state  
-✅ **API Integration**: Dynamic data fetching  
-✅ **localStorage**: Cart persistence  
+✅ **State Management**: Redux Toolkit with organized slices  
+✅ **API Integration**: Dynamic data fetching with async thunks  
+✅ **localStorage**: Cart persistence with Redux integration  
 ✅ **Error Handling**: Comprehensive error states  
 ✅ **Loading States**: User feedback during operations  
 ✅ **Clean Architecture**: Reusable components  
